@@ -1,4 +1,4 @@
-class complex_number:
+class ComplexNumber:
     def __init__(self, real, imag):
         if self.is_valid(real, imag):
             self.real = real
@@ -18,19 +18,31 @@ class complex_number:
             return str(self.imag) + 'i'
         if self.imag == 0:
             return str(self.real)
+        if self.imag < 0:
+            return str(self.real) + " - " + str(abs(self.imag)) + "i"
         return str(self.real) + " + " + str(self.imag) + "i"
     
     def __add__(self, other_complex_number):
-        if type(other_complex_number) != complex_number:
+        if type(other_complex_number) != ComplexNumber:
             raise Exception("You can not add an invalid complex number")
-        return complex_number(self.real + other_complex_number.real, self.imag + other_complex_number.imag)
+        return ComplexNumber(self.real + other_complex_number.real, self.imag + other_complex_number.imag)
     
     def __sub__(self, other_complex_number):
-        if type(other_complex_number) != complex_number:
+        if type(other_complex_number) != ComplexNumber:
             raise Exception("You can not subtract an invalid complex number")
-        return complex_number(self.real - other_complex_number.real, self.imag - other_complex_number.imag)
+        return ComplexNumber(self.real - other_complex_number.real, self.imag - other_complex_number.imag)
     
     def __mul__(self , other_complex_number):
-        if type(other_complex_number) != complex_number:
+        if type(other_complex_number) != ComplexNumber:
             raise Exception("You can not muiltiply an invalid complex number")
-        return complex_number(self.real * other_complex_number.imag - other_complex_number.real * self.imag, self.imag * other_complex_number.real + other_complex_number.imag * self.real)
+        return ComplexNumber(self.real * other_complex_number.real - other_complex_number.imag * self.imag, self.imag * other_complex_number.real + other_complex_number.imag * self.real)
+    
+    def conjugate(self):
+        return ComplexNumber(self.real, -1 * self.imag)
+
+    def abs(self):
+        return (self * self.conjugate()).real**0.5
+    
+    def __pow__(self, power):
+        if self.real == 0:
+            pass
